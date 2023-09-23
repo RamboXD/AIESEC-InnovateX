@@ -1,4 +1,5 @@
 import { Home, Portal } from "@pages";
+import { Game } from "@pages/Game/Game";
 import { IRoute, Role } from "@ts/types";
 
 export const ROUTES: IRoute[] = [
@@ -14,6 +15,13 @@ export const ROUTES: IRoute[] = [
     path: "/portal/:roomID",
     component: <Portal />,
     roles: [Role.CLIENT, Role.ADMIN],
+    isPublic: true,
+  },
+  {
+    name: "Game",
+    path: "/game",
+    component: <Game />,
+    roles: [Role.ADMIN, Role.ADMIN],
     isPublic: true,
   },
 ];
