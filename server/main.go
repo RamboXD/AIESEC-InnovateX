@@ -25,6 +25,9 @@ var (
 	BoardRouteController routes.BoardRouteController
 	CompanyController      controllers.CompanyController
 	CompanyRouteController routes.CompanyRouteController
+
+	GameController      controllers.GameController
+	GameRouteController routes.GameRouteController
 )
 
 func init() {
@@ -50,6 +53,9 @@ func init() {
 
 	CompanyController = controllers.NewCompanyController(initializers.DB)
 	CompanyRouteController = routes.NewRouteCompanyController(CompanyController)
+
+	GameController = controllers.NewGameController(initializers.DB)
+	GameRouteController = routes.NewRouteGameController(GameController)
 
 	server = gin.Default()
 }
@@ -77,6 +83,7 @@ func main() {
 	UserRouteController.UserRoute(router)
 	BoardRouteController.BoardRoute(router)
 	CompanyRouteController.CompanyRoute(router)
+	GameRouteController.GameRoute(router)
 	log.Fatal(server.Run(":" + config.ServerPort))
 }
 
