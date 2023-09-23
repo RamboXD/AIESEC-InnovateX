@@ -1,4 +1,3 @@
-import { Toaster } from "@components/ui/toaster";
 import { ROUTES } from "@constants/routes";
 import { AnimatePresence } from "framer-motion";
 import { Route, Routes } from "react-router-dom";
@@ -16,7 +15,6 @@ const App: React.FC = () => {
             />
           ))}
         </Routes>
-        <Toaster />
       </AnimatePresence>
     </div>
   );
