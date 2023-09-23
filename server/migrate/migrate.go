@@ -22,6 +22,8 @@ func main() {
 	initializers.DB.AutoMigrate(&models.User{})
 	initializers.DB.AutoMigrate(&models.City{})
 	initializers.DB.AutoMigrate(&models.Board{})
+	initializers.DB.AutoMigrate(&models.Company{})
+	initializers.DB.AutoMigrate(&models.Game{})
 	fmt.Println("? Migration complete")
 }
 

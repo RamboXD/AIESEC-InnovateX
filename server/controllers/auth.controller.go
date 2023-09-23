@@ -5,9 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/RamboXD/SRS/initializers"
 	"github.com/RamboXD/SRS/models"
-	"github.com/RamboXD/SRS/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/twilio/twilio-go"
 	openapi "github.com/twilio/twilio-go/rest/verify/v2"
@@ -23,7 +21,7 @@ func NewAuthController(DB *gorm.DB) AuthController {
 	return AuthController{DB}
 }
 
-func (ac *AuthController) SignUpUser(ctx *gin.Context) {
+func (ac *AuthController) CreateUser(ctx *gin.Context) {
 	var payload *models.SignUpInput
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -34,6 +32,9 @@ func (ac *AuthController) SignUpUser(ctx *gin.Context) {
 	now := time.Now()
 	newUser := models.User{
 		Name:      payload.Name,
+		Phone: 	   payload.Phone,
+		Tries: 		5,
+		Last_game: now.Add(-24 * time.Hour),
 		CreatedAt: now,
 	}
 
@@ -48,53 +49,12 @@ func (ac *AuthController) SignUpUser(ctx *gin.Context) {
 	}
 
 	userResponse := &models.UserResponse{
-		ID:        newUser.ID,
-		Name:      newUser.Name,
-		CreatedAt: newUser.CreatedAt,
+		ID:         newUser.ID,
+		Name:       newUser.Name,
+		Phone:      newUser.Phone,
+		Tries:      int64(newUser.Tries),
 	}
 	ctx.JSON(http.StatusCreated, gin.H{"status": "success", "data": gin.H{"user": userResponse}})
-}
-
-func (ac *AuthController) SignInUser(ctx *gin.Context) {
-	var payload *models.SignInInput
-
-	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
-		return
-	}
-
-	var user models.User
-	result := ac.DB.First(&user, "email = ?", strings.ToLower(payload.Email))
-	if result.Error != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": "Invalid email or Password"})
-		return
-	}
-
-	// if err := utils.VerifyPassword(user.Password, payload.Password); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": "Invalid email or Password"})
-	// 	return
-	// }
-
-	config, _ := initializers.LoadConfig(".")
-
-	// Generate Tokens
-	access_token, err := utils.CreateToken(config.AccessTokenExpiresIn, user.ID, config.AccessTokenPrivateKey)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
-		return
-	}
-
-	refresh_token, err := utils.CreateToken(config.RefreshTokenExpiresIn, user.ID, config.RefreshTokenPrivateKey)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
-		return
-	}
-
-	ctx.SetCookie("access_token", access_token, config.AccessTokenMaxAge*60, "/", "localhost", false, true)
-	ctx.SetCookie("refresh_token", refresh_token, config.RefreshTokenMaxAge*60, "/", "localhost", false, true)
-	ctx.SetCookie("logged_in", "true", config.AccessTokenMaxAge*60, "/", "localhost", false, false)
-
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "access_token": access_token})
 }
 
 

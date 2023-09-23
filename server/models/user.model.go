@@ -22,7 +22,14 @@ type SignUpInput struct {
 type UserResponse struct {
 	ID        uint `json:"id,omitempty"`
 	Name      string    `json:"name,omitempty"`
-	Phone 	  string 	`gorm:"type:varchar(255);not null"`
-	Try 	  int64		``
-	CreatedAt time.Time `json:"created_at"`
+	Phone 	  string 	`json:"phone" binding:"required"`
+	Tries 	  int64		`json:"tries" binding:"required"`
+}
+
+type CheckInput struct {
+	Phone 	  string 	`json:"phone" binding:"required"`
+}
+
+type CheckResponse struct {
+	IsAllowed bool      `json:"is_allowed" binding:"required"`
 }
