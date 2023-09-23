@@ -1,7 +1,11 @@
 // @ts-nocheck
+import Cola from "@assets/video/cola.mp4";
 import HomeLayout from "@components/Layouts/HomeLayout";
 import { useEffect, useRef } from "react";
+import { FaMapMarkerAlt } from "react-icons/fa";
 import { useParams } from "react-router-dom";
+import BounceLoader from "react-spinners/BounceLoader";
+import Typewriter from "typewriter-effect";
 
 const Portal: React.FC<MatchParams> = (props) => {
   let { roomID } = useParams();
@@ -156,20 +160,55 @@ const Portal: React.FC<MatchParams> = (props) => {
 
   return (
     <HomeLayout>
-      <div className="w-full rounded-2xl bg-info-card">
-        <video
-          className="absolute top-0 right-0 h-1/3 w-1/3 rounded-tl-2xl rounded-bl-2xl"
-          autoPlay
-          controls={false}
-          ref={userVideo}
-          muted
-        ></video>
-        <video
-          className="rounded-2xl"
-          autoPlay
-          controls={false}
-          ref={partnerVideo}
-        ></video>
+      <div className="w-full rounded-2xl">
+        {userVideo.current && partnerVideo.current ? (
+          <div className="flex flex-col gap-2">
+            <video className="rounded-2xl w-full" loop autoPlay={true} muted>
+              <source src={Cola} type="video/mp4" />
+            </video>
+            <div className="w-full text-white font-semibold text-2xl flex flex-col justify-center items-center py-4 gap-4">
+              <Typewriter
+                onInit={(typewriter) => {
+                  typewriter
+                    .typeString("Ожидание участника...")
+                    .pauseFor(100)
+                    .deleteAll()
+                    .start();
+                }}
+                options={{
+                  autoStart: true,
+                  loop: true,
+                }}
+              />
+              <BounceLoader color="#293447" />
+            </div>
+          </div>
+        ) : (
+          <div className="flex-col w-full relative">
+            <video
+              className="absolute top-0 right-3 h-1/3 w-1/3 rounded-3xl"
+              autoPlay
+              controls={false}
+              ref={userVideo}
+              muted
+            ></video>
+            <video
+              className="rounded-2xl w-full"
+              autoPlay
+              controls={false}
+              ref={partnerVideo}
+            ></video>
+            <div className="w-full mt-4 bg-info-card py-6 rounded-2xl px-5">
+              <div className="flex flex-row items-center gap-2">
+                <FaMapMarkerAlt size="1.5rem" color="#ffffff" />
+                <p className="text-white text-xl font-semibold">
+                  Ваш Собеседник из Алматы
+                </p>
+              </div>
+              <div></div>
+            </div>
+          </div>
+        )}
       </div>
     </HomeLayout>
   );
