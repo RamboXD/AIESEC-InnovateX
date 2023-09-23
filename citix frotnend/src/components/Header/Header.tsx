@@ -1,9 +1,29 @@
+import { useEffect, useState } from "react";
 import { LiaWifiSolid } from "react-icons/lia";
 
 const Header: React.FC = () => {
+  const [time, setTime] = useState("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      const currentTime = new Date();
+      const hours = String(currentTime.getHours()).padStart(2, "0");
+      const minutes = String(currentTime.getMinutes()).padStart(2, "0");
+      setTime(`${hours}:${minutes}`);
+    };
+
+    updateTime();
+
+    const intervalId = setInterval(updateTime, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <div className="w-full rounded-2xl py-4 px-5 bg-info-card flex flex-row justify-between items-center">
-      <div className="font-bold text-white text-2xl">12:30</div>
+      <div className="font-bold text-white text-2xl">{time}</div>
       <div className="flex flex-row gap-2">
         <div className="py-3 px-3 rounded-xl bg-info-card-active flex flex-row justify-center items-center gap-2">
           <svg

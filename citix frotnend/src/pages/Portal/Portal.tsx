@@ -158,7 +158,7 @@ const Portal: React.FC<MatchParams> = (props) => {
     <HomeLayout>
       <div className="w-full rounded-2xl bg-info-card">
         <video
-          className="hidden"
+          className="absolute top-0 right-0 h-1/3 w-1/3 rounded-tl-2xl rounded-bl-2xl"
           autoPlay
           controls={false}
           ref={userVideo}
