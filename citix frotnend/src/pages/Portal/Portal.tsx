@@ -1,5 +1,4 @@
 // @ts-nocheck
-import Header from "@components/Header/Header";
 import HomeLayout from "@components/Layouts/HomeLayout";
 import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
@@ -157,7 +156,6 @@ const Portal: React.FC<MatchParams> = (props) => {
 
   return (
     <HomeLayout>
-      <Header />
       <div className="w-full rounded-2xl bg-info-card">
         <video
           className="hidden"

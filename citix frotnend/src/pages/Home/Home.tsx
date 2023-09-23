@@ -1,6 +1,5 @@
 import Map from "@assets/images/map.jpeg";
 import Video from "@assets/video/nike.mp4";
-import Header from "@components/Header/Header";
 import HomeLayout from "@components/Layouts/HomeLayout";
 import { useNavigate } from "react-router-dom";
 
@@ -15,9 +14,14 @@ const Home: React.FC = () => {
     navigate(`/portal/${room_id}`);
   };
 
+  const navigateToGames = (e: any) => {
+    e.preventDefault();
+
+    navigate(`/game`);
+  };
+
   return (
     <HomeLayout>
-      <Header />
       <div className="w-full rounded-2xl bg-blue-500">
         <video className="rounded-2xl w-full" loop autoPlay={true} muted>
           <source src={Video} type="video/mp4" />
@@ -27,12 +31,17 @@ const Home: React.FC = () => {
         <div className="w-full flex flex-col justify-between gap-3">
           <button
             onClick={create}
-            className="w-full bg-red-500 h-full rounded-2xl md:py-24 lg:py-24 flex justify-center items-center"
+            className="w-full bg-violet-700 h-full rounded-2xl md:py-24 lg:py-24 flex justify-center items-center"
           >
             <p className="text-white font-bold text-3xl">PORTAL</p>
           </button>
           <div className="w-full flex flex-row md:flex-col lg:flex-col gap-3 h-full">
-            <div className="w-full bg-lime-400 rounded-2xl h-full md:py-24 lg:py-24"></div>
+            <button
+              className="w-full bg-lime-400 rounded-2xl h-full md:py-24 lg:py-24 flex justify-center items-center"
+              onClick={navigateToGames}
+            >
+              <p className="text-white font-bold text-3xl">GAMES</p>
+            </button>
           </div>
         </div>
         <div className="w-full">
