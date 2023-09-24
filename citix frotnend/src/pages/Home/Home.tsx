@@ -17,7 +17,7 @@ const Home: React.FC = () => {
   const navigateToGames = (e: any) => {
     e.preventDefault();
 
-    navigate(`/game`);
+    navigate(`/games`);
   };
 
   return (
