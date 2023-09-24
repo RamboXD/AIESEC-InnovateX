@@ -21,7 +21,7 @@ function CompanyButton({ company, onClick }) {
   return (
     <button
       style={gradientStyle}
-      onClick={onClick}
+      onClick={() => onClick(company)}
       className="background-animate bg-gradient-to-r py-12 transition-all"
     >
       <p className="text-blue-950 font-bold text-2xl">
@@ -62,9 +62,8 @@ const Home: React.FC = () => {
     navigate(`/portal/${room_id}`);
   };
 
-  const navigateToGames = () => {
-    console.log(11111111);
-    navigate(`/game`);
+  const navigateToGames = (company) => {
+    navigate(`/game`, { state: { company: company } });
   };
 
   useEffect(() => {

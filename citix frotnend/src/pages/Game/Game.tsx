@@ -1,9 +1,11 @@
 import HomeLayout from "@components/Layouts/HomeLayout";
 import axios from "axios";
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import BounceLoader from "react-spinners/BounceLoader";
 
 export const Game = () => {
+  const navigate = useNavigate();
   const [phone, setPhone] = useState<string>("");
   const [code, setCode] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -61,6 +63,17 @@ export const Game = () => {
         setPhone("");
       });
   };
+
+  const { state } = useLocation();
+
+  const handleDino = (e: any) => {
+    e.preventDefault();
+
+    navigate(`/game/dino`, {
+      state: { phone: phone, name: state.company.name },
+    });
+  };
+  console.log(state);
 
   return (
     <HomeLayout>
@@ -138,7 +151,14 @@ export const Game = () => {
               <div className="w-full">
                 <div className="flex flex-col gap-3">
                   <div className=" flex flex-row w-full gap-3">
-                    <div className="py-20 w-full bg-blue-500 rounded-2xl"></div>
+                    <div
+                      onClick={handleDino}
+                      className="py-20 w-full bg-blue-500 rounded-2xl"
+                    >
+                      <p className="text-white font-semibold text-xl">
+                        Google Dino
+                      </p>
+                    </div>
                     <div className="py-20 w-full bg-blue-500 rounded-2xl"></div>
                   </div>
                   <div className=" flex flex-row gap-3">
