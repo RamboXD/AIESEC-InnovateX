@@ -1,3 +1,4 @@
+//@ts-nocheck
 import HomeLayout from "@components/Layouts/HomeLayout";
 import axios from "axios";
 import { useState } from "react";
