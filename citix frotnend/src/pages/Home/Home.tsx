@@ -1,9 +1,12 @@
 import Map from "@assets/images/map.jpeg";
 import Video from "@assets/video/nike.mp4";
 import HomeLayout from "@components/Layouts/HomeLayout";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
+  const [companies, setCompanies] = useState<Array<Object>>([]);
   const navigate = useNavigate();
 
   const create = async (e: any) => {
@@ -19,6 +22,21 @@ const Home: React.FC = () => {
 
     navigate(`/game`);
   };
+
+  useEffect(() => {
+    const getCompanies = async () => {
+      await axios
+        .get("http://localhost:10001/api/company/")
+        .then((res) => {
+          if (res.status === "success") {
+            setCompanies();
+          }
+        })
+        .catch(() => {});
+    };
+
+    getCompanies();
+  }, []);
 
   return (
     <HomeLayout>
