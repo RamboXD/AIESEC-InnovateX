@@ -16,8 +16,6 @@ func NewCompanyController(DB *gorm.DB) CompanyController {
 	return CompanyController{DB}
 }
 
-
-
 func (cc *CompanyController) CreateCompany(ctx *gin.Context) {
 	var payload *models.CompanyInput
 

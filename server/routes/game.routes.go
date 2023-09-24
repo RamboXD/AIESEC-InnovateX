@@ -16,4 +16,5 @@ func NewRouteGameController(gameController controllers.GameController) GameRoute
 func (gc *GameRouteController) GameRoute(rg *gin.RouterGroup) {
 	router := rg.Group("game")
 	router.POST("/create", gc.gameController.CreateGame)
+	router.POST("/play-game", gc.gameController.GetResult)
 }
