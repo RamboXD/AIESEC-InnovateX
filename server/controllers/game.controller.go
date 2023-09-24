@@ -93,7 +93,7 @@ func (gc *GameController) GetResult(ctx *gin.Context) {
 		Result: "win",
 		PromoCode: companyInstance.PromoCode,
 	}
-	ctx.JSON(http.StatusAccepted, gin.H{"status": "success", "data": gin.H{"game_rreport": resultResponse}})
+	ctx.JSON(http.StatusAccepted, gin.H{"status": "success", "data": gin.H{"game_report": resultResponse}})
 
 	accountSid := "ACf0002507c5ec9de6b536fc8ae3413837"
 	authToken := "11372ad0e341644b868e95d32183b19c"
@@ -122,6 +122,5 @@ func (gc *GameController) GetResult(ctx *gin.Context) {
 			fmt.Println(resp.Sid)
 		}
 	}
-	ctx.JSON(http.StatusAccepted, gin.H{"status": "success", "message": "promo_code sent"})
 }
 
