@@ -105,6 +105,12 @@ const Home: React.FC = () => {
               />
             ) : null}
           </div>
+          <button
+            onClick={() => navigate("/charity")}
+            className="w-full flex justify-center py-12 bg-orange-600 flex-row md:flex-col lg:flex-col gap-3 h-full rounded-2xl"
+          >
+            <p className="text-white font-bold text-3xl">Charity</p>
+          </button>
         </div>
         <div className="w-full">
           <img src={Map} alt="2gis map" className="rounded-2xl" />

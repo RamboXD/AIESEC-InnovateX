@@ -23,7 +23,7 @@ const Dino: React.FC = () => {
   const [gameWon, setGameWon] = useState<boolean>(false);
 
   const navigate = useNavigate();
-  console.log("now", points);
+  console.log("now", score);
 
   const jump = () => {
     if (!isJumping && !isGameOver) {
@@ -101,8 +101,6 @@ const Dino: React.FC = () => {
           handleExit();
         }
       });
-
-    setTimeout(() => {}, 1000);
   };
 
   useEffect(() => {
