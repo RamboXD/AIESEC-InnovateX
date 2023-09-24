@@ -1,21 +1,23 @@
-//@ts-nocheck
+// @ts-nocheck
 import HomeLayout from "@components/Layouts/HomeLayout";
+import useWindowDimensions from "@hooks/useWindowDimensions";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import Confetti from "react-confetti";
 import { ImExit } from "react-icons/im";
 import { ColorRing } from "react-loader-spinner";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./GameStyles.css"; // Import your CSS file here
 
 const Dino: React.FC = () => {
+  const { height, width } = useWindowDimensions();
   const [isJumping, setIsJumping] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [dinoPosition, setDinoPosition] = useState(150);
   const [cactusPosition, setCactusPosition] = useState(600);
-  const [score, setScore] = useState<number>(1);
+  const [score, setScore] = useState<number>(0);
   const [win, setWin] = useState<boolean>(false);
   const [promo, setPromo] = useState<string>("");
-  const [points, setPoints] = useState(0);
 
   const gameIntervalRef = useRef<NodeJS.Timeout | null>(null); // Use useRef to maintain a reference to the interval
   const [waiting, setWaiting] = useState<boolean>(false);
@@ -23,7 +25,8 @@ const Dino: React.FC = () => {
   const [gameWon, setGameWon] = useState<boolean>(false);
 
   const navigate = useNavigate();
-  console.log("now", score);
+
+  let scoreVal = 0;
 
   const jump = () => {
     if (!isJumping && !isGameOver) {
@@ -58,31 +61,28 @@ const Dino: React.FC = () => {
   const { state } = useLocation();
 
   const endGame = async () => {
-    console.log("--->", Math.floor(points));
+    // console.log("--->", Math.floor(points));
     setIsGameOver(true);
     if (gameIntervalRef.current) {
       clearInterval(gameIntervalRef.current); // Clear the interval when the game is over
     }
 
+    const points = Math.floor(scoreVal);
+    console.log("Score: " + points);
+
     setWaiting(true);
-    console.log({
-      game_id: 1,
-      user_phone: state.phone,
-      company_name: state.name,
-      points: score,
-    });
     await axios
       .post("http://localhost:10001/api/game/play-game", {
         game_id: 1,
         user_phone: state.phone,
         company_name: state.name,
-        points: score,
+        points: points,
       })
       .then((res) => {
         console.log(res);
-        if (res.data.data.game_rreport.result === "win") {
+        if (res.data.data.game_report.result === "win") {
           setWin(true);
-          setPromo(res.data.data.game_rreport.promocode);
+          setPromo(res.data.data.game_report.promocode);
         }
       });
 
@@ -101,12 +101,13 @@ const Dino: React.FC = () => {
           handleExit();
         }
       });
+
+    setTimeout(() => {}, 1000);
   };
 
   useEffect(() => {
     if (isGameOver && gameIntervalRef.current) {
       clearInterval(gameIntervalRef.current);
-      console.log("clearing 2");
     }
   }, [isGameOver]);
 
@@ -118,7 +119,7 @@ const Dino: React.FC = () => {
           prevPosition <= -20 ? 600 : prevPosition - 5
         );
         setScore((prevScore) => prevScore + 1 / 10);
-        if (score > 0) setPoints(score);
+        scoreVal += 1 / 10;
       }, 10);
 
       return () => {
@@ -153,6 +154,7 @@ const Dino: React.FC = () => {
     setIsGameOver(false);
     setDinoPosition(150);
     setCactusPosition(600);
+    scoreVal = 0;
   };
 
   return (
@@ -225,7 +227,15 @@ const Dino: React.FC = () => {
           </div>
         </div>
       ) : (
-        <></>
+        <div className="w-full h-full flex flex-col justify-center items-center gap-3">
+          <p className="text-white font-semibold text-xl">
+            Congratulations, you win!
+          </p>
+          <p className="text-white font-semibold text-2xl">
+            Promocode: {promo}
+          </p>
+          <Confetti width={width} height={height} />
+        </div>
       )}
     </HomeLayout>
   );

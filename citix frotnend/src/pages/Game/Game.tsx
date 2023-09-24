@@ -78,7 +78,7 @@ export const Game = () => {
 
   return (
     <HomeLayout>
-      <div className="py-1"></div>
+      <div className="py-7"></div>
       <div className="w-full h-full flex flex-col justify-center items-center">
         {!loaded ? (
           <BounceLoader color="#293447" size={100} />
@@ -154,21 +154,41 @@ export const Game = () => {
                   <div className=" flex flex-row w-full gap-3">
                     <div
                       onClick={handleDino}
-                      className="py-20 w-full bg-blue-500 rounded-2xl"
+                      className="py-20 w-full bg-blue-500 rounded-2xl flex justify-center items-center"
                     >
-                      <p className="text-white font-semibold text-xl">
+                      <p className="text-white font-semibold text-2xl">
                         Google Dino
                       </p>
                     </div>
-                    <div className="py-20 w-full bg-blue-500 rounded-2xl"></div>
+                    <div className="py-20 w-full bg-blue-500 rounded-2xl flex justify-center items-center">
+                      <p className="text-white font-semibold text-2xl">
+                        Flappy Bird
+                      </p>
+                    </div>
                   </div>
                   <div className=" flex flex-row gap-3">
-                    <div className="py-20 w-full bg-blue-500 rounded-2xl"></div>
-                    <div className="py-20 w-full bg-blue-500 rounded-2xl"></div>
+                    <div className="py-20 w-full bg-blue-500 rounded-2xl flex justify-center items-center">
+                      <p className="text-white font-semibold text-2xl">
+                        Sudoku
+                      </p>
+                    </div>
+                    <div className="py-20 w-full bg-blue-500 rounded-2xl flex justify-center items-center">
+                      <p className="text-white font-semibold text-2xl">
+                        Subway Surf
+                      </p>
+                    </div>
                   </div>
                   <div className=" flex flex-row gap-3">
-                    <div className="py-20 w-full bg-blue-500 rounded-2xl"></div>
-                    <div className="py-20 w-full bg-blue-500 rounded-2xl"></div>
+                    <div className="py-20 w-full bg-blue-500 rounded-2xl flex justify-center items-center">
+                      <p className="text-white font-semibold text-2xl">
+                        Animal Crossing
+                      </p>
+                    </div>
+                    <div className="py-20 w-full bg-blue-500 rounded-2xl flex justify-center items-center">
+                      <p className="text-white font-semibold text-2xl">
+                        Talking Tom
+                      </p>
+                    </div>
                   </div>
                   <div className="py-28 w-full bg-blue-500 rounded-2xl"></div>
                 </div>
